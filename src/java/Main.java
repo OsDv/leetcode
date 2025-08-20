@@ -1,11 +1,16 @@
 import java.io.*;
-
+import java.util.Scanner;
 class Main 
 {
 	public static void main(String[] args) {
-		String s = "PAYPALISHIRING";
-		ZigzagConversion o = new ZigzagConversion(s, 4);
-		System.out.println(o.getResutl());
+		System.out.println(-2147483648/10);
+		System.out.println(-2147483648%10);
+		Scanner s= new Scanner(System.in);
+		int x = s.nextInt();
+		s.close();
+		ReverseInteger reverse = new ReverseInteger(x);
+		System.out.println(reverse.getResult());
+
 	}
 }
 class LongestPalindromicSubString
