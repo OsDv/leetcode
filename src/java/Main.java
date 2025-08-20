@@ -3,9 +3,9 @@ import java.io.*;
 class Main 
 {
 	public static void main(String[] args) {
-		String s = "a";
-		LongestPalindromicSubString o = new LongestPalindromicSubString(s);
-		System.out.println(o.result);
+		String s = "PAYPALISHIRING";
+		ZigzagConversion o = new ZigzagConversion(s, 4);
+		System.out.println(o.getResutl());
 	}
 }
 class LongestPalindromicSubString
