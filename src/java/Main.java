@@ -3,14 +3,8 @@ import java.util.Scanner;
 class Main 
 {
 	public static void main(String[] args) {
-		System.out.println(-2147483648/10);
-		System.out.println(-2147483648%10);
-		Scanner s= new Scanner(System.in);
-		int x = s.nextInt();
-		s.close();
-		ReverseInteger reverse = new ReverseInteger(x);
-		System.out.println(reverse.getResult());
-
+		StringToInteger o = new StringToInteger(args[0]);
+		System.out.println(o.getResult());
 	}
 }
 class LongestPalindromicSubString
