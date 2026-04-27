@@ -5,4 +5,7 @@
 #define SOL_ABS(x) (x < 0) ? -x : x
 
 int maxArea(int *height, int heightSize);
+char *intToRoman(int num);
+int **threeSum(int *nums, int numsSize, int *returnSize,
+               int **returnColumnSizes);
 #endif
