@@ -8,4 +8,5 @@ int maxArea(int *height, int heightSize);
 char *intToRoman(int num);
 int **threeSum(int *nums, int numsSize, int *returnSize,
                int **returnColumnSizes);
+char** letterCombinations(char* digits, int* returnSize);
 #endif

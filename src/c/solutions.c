@@ -1,5 +1,6 @@
 #include "solutions.h"
 #include <pthread.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -30,7 +31,7 @@ int maxArea(int *height, int heightSize) {
 
 #define MAX_ROMAN_WIDTH 128
 #define MAX_DECIMAL_DEGITS 10
-const char ROMAN_MAP[4][2] = {"IV", "XL", "CD", "M\0"};
+const char __attribute__((nonstring))ROMAN_MAP[4][2] = {"IV", "XL", "CD", "M\0"};
 int digitToRoman(int digit, int weight, char *dst) {
   if (digit > 9 || digit < 0)
     return -1;
@@ -183,7 +184,6 @@ int **threeSum(int *nums, int numsSize, int *returnSize,
   struct triplet_list *list = NULL, *q = NULL;
   struct thread_struct threads_args[NUM_THREADS];
   pthread_t threads[NUM_THREADS];
-  int ids[NUM_THREADS];
   for (int i = 0; i < NUM_THREADS; i++) {
     threads_args[i].id = i;
     threads_args[i].min = min;
@@ -247,6 +247,45 @@ int **threeSum(int *nums, int numsSize, int *returnSize,
     list = q;
     q = q->next;
     free(list);
+  }
+  return result;
+}
+/* https://leetcode.com/problems/letter-combinations-of-a-phone-number/ */
+
+char **letterCombinations(char *digits, int *returnSize) {
+  if (!digits || !(*digits))
+    return (void *)((*returnSize) = 0);
+  const int ButtonsNumber = 8;
+  const int MaxCharactersPerButton = 4;
+  struct Button {
+    const char *characters;
+    int charactersLength;
+  } buttons[ButtonsNumber];
+  buttons[0] = (struct Button){"abc", 3};
+  buttons[1] = (struct Button){"def", 3};
+  buttons[2] = (struct Button){"ghi", 3};
+  buttons[3] = (struct Button){"jkl", 3};
+  buttons[4] = (struct Button){"mno", 3};
+  buttons[5] = (struct Button){"pqrs", 4};
+  buttons[6] = (struct Button){"tuv", 3};
+  buttons[7] = (struct Button){"wxyz", 4};
+  (*returnSize) = 1;
+  int digitsLength = 0;
+  while (digits[digitsLength])
+    (*returnSize) *= buttons[digits[digitsLength++] - '1' - 1].charactersLength;
+  //  printf("DEBUG: %d", (*returnSize));
+  char **result = (char **)calloc(*returnSize, sizeof(char *));
+  for (int i=0;i<*returnSize;i++) result[i] = calloc(digitsLength+1,sizeof(char));
+  int swapEach= 1;
+  for (int i = 0; i < digitsLength; i++) {
+    int charIndex = 0;
+    for (int j = 0; j < *returnSize; j++) {
+      if (j%swapEach==0) charIndex=(charIndex+1) % buttons[digits[i] - '1' - 1].charactersLength;
+      result[j][i] =
+          buttons[digits[i] - '1' - 1]
+              .characters[charIndex];
+    }
+    swapEach*=buttons[digits[i] - '1' - 1].charactersLength;
   }
   return result;
 }
