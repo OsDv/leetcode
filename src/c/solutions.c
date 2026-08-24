@@ -289,3 +289,47 @@ char **letterCombinations(char *digits, int *returnSize) {
   }
   return result;
 }
+
+// Reverse Nodes in k-Group [Hard]
+// https://leetcode.com/problems/reverse-nodes-in-k-group
+struct ListNode* reverseKGroup(struct ListNode* head, int k) {
+  if (!head || k==1)
+    return head;
+  struct ListNode *list = head;
+  struct ListNode **k_head = &list;
+  while (*k_head) {
+    struct ListNode *p = *k_head;
+    struct ListNode *q = p->next;
+    struct ListNode *r = NULL;
+    for (int i = 0; i < k - 1; i++) {
+      if (q) {
+        r = q->next;
+        q->next = p;
+        p = q;
+	q = r;
+      } else {
+        q = p->next;
+	p->next = NULL;
+        while (p != *k_head && q) {
+          r = q->next;
+          q->next = p;
+          p = q;
+	  q = r;
+	}
+	return list;
+    }
+  }
+    (*k_head)->next = r;
+    struct ListNode *old = *k_head;
+    *k_head = p;
+    k_head = &old->next;
+}
+  return list;
+}
+
+struct ListNode *ListNode_new(int val) {
+  struct ListNode *new = (struct ListNode *)malloc(sizeof(struct ListNode));
+  new->next = NULL;
+  new->val = val;
+  return new;
+}
