@@ -3,6 +3,7 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <time.h>
 /*
  * Solution for: Container With Most Water [MEDIUM]
@@ -333,3 +334,50 @@ struct ListNode *ListNode_new(int val) {
   new->val = val;
   return new;
 }
+// https://leetcode.com/problems/divide-two-integers/
+uint64_t u32_mul(uint32_t a, uint32_t b) {
+  uint64_t result = 0;
+  uint64_t a64 = (uint64_t)a;
+  uint64_t mask = 1;
+  for (int i = 0; i < 32; i++) {
+    if (b & mask) result += a64;
+    mask <<= 1;
+    a64 <<=1;
+  }
+  return result;
+}
+int divide(int dividend, int divisor) {
+
+  int positive = 1;
+  uint32_t udividend = (uint32_t)dividend;
+  uint32_t udivisor = (uint32_t)divisor;
+
+  if (dividend < 0) {
+    udividend = ~udividend + 1;
+    positive = 1 - positive;
+  }
+  if (divisor < 0) {
+   udivisor = ~udivisor +1; 
+   positive = 1 - positive;
+  }
+
+  if (udividend < udivisor) return 0;
+  uint32_t high = udividend;
+  uint32_t low = 1;
+  while (high > low) {
+    uint32_t mid = low + ((high - low) >> 1); // low + (high - low) / 2 , is safer than (high + low)/2 which my cause overflow
+    uint64_t product = u32_mul(mid, udivisor);
+    uint64_t diff = (uint64_t)udividend - product;
+    if ((uint64_t)udividend >= product && diff < (uint64_t) udivisor) {
+      high = mid;
+      break;
+    } else if (product < (uint64_t)udividend) 
+      low = mid + 1;
+    else high = mid - 1;
+  }
+
+  uint32_t res = high;
+  if (!positive) return ~res + 1;
+  return (res > INT32_MAX)?  INT32_MAX: (int)res;
+}
+
