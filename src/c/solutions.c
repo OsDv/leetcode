@@ -381,3 +381,20 @@ int divide(int dividend, int divisor) {
   return (res > INT32_MAX)?  INT32_MAX: (int)res;
 }
 
+// https://leetcode.com/problems/remove-nth-node-from-end-of-list
+struct ListNode* removeNthFromEnd(struct ListNode* head, int n) {
+  struct ListNode **target= &head;
+  struct ListNode *nth = head;
+  for (int i=0;i<n ;i++) {
+    if (!nth)return head;
+    nth = nth->next;
+  }
+  while (nth) {
+    nth = nth->next;
+    target = &(*target)->next;
+  }
+  struct ListNode *tmp = (*target)->next;
+  free(*target);
+  *target = tmp;
+  return head;
+}

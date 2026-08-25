@@ -15,4 +15,5 @@ char** letterCombinations(char* digits, int* returnSize);
 struct ListNode *ListNode_new(int val);
 struct ListNode* reverseKGroup(struct ListNode* head, int k);
 int divide(int dividend, int divisor);
+struct ListNode* removeNthFromEnd(struct ListNode* head, int n);
 #endif
